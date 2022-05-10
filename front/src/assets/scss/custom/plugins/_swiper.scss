@@ -1,0 +1,14 @@
+.swiper {
+  height: 80vh;
+  position: relative;
+
+  .swiper-slide {
+    background-position: center;
+    background-size: cover;
+
+    img {
+      display: block;
+      width: 100%;
+    }
+  }
+}

@@ -1,19 +1,17 @@
-import { useEffect, useState } from "react";
-import { Route, Routes } from "react-router-dom";
-
-import Layout from "./layout";
-import Home from "./views/Home";
+import { Routes, Route } from "react-router-dom";
+import Layout from "./layouts";
+import Error404 from "./pages/errors/Error404";
+import Home from "./pages/Home";
+import List from "./pages/List";
 
 const App = () => {
-  useEffect(() => {
-    document.body.classList.add("bg-gray-200");
-  }, []);
-
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
+        <Route path="/foods" element={<List />} />
       </Route>
+      <Route path="*" element={<Error404 />} />
     </Routes>
   );
 };
