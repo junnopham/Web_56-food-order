@@ -7,14 +7,14 @@ const errorMiddleware = (err, req, res, next) => {
   console.error(`[ERROR] - Status: ${code} - Msg: ${message}`);
 
   return res.status(code).json({
-    status: code,
+    code,
     message,
   });
 };
 
 const notFoundMiddleware = (req, res, next) => {
   return res.status(404).json({
-    status: 404,
+    code: 404,
     message: "Not Found",
   });
 };

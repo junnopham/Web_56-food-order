@@ -10,6 +10,7 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
+      select: false,
     },
     name: {
       type: String,
@@ -20,7 +21,16 @@ const userSchema = new mongoose.Schema(
       default: "user",
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    toJSON: {
+      transform: function (doc, ret) {
+        ret.id = ret._id;
+        delete ret._id;
+        delete ret.__v;
+      },
+    },
+  }
 );
 
 userSchema.pre("save", function (next) {
