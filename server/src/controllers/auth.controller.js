@@ -62,14 +62,15 @@ class AuthController {
 
     return res.json({
       code: 200,
-      message: "success",
+      status: "success",
       data: newUser,
     });
   }
 
   async me(req, res) {
     return res.json({
-      message: "success",
+      code: 200,
+      status: "success",
       data: req.user,
     });
   }
@@ -77,6 +78,7 @@ class AuthController {
   logout(req, res) {
     res.clearCookie("Authorization");
     return res.json({
+      code: 200,
       status: "success",
       message: "Logout success!",
     });

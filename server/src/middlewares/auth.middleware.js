@@ -5,12 +5,12 @@ const User = require("../models/user.model");
 const isLoggedIn = async (req, res, next) => {
   const token = req.cookies ? req.cookies.Authorization : null;
 
-  if (!token) throw new Error("Unauthorized");
-
   try {
+    if (!token) throw new Error("Unauthorized");
+
     const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
-    const {__v, ...user} = await User.findById(decoded._id).lean();
+    const { __v, ...user } = await User.findById(decoded._id).lean();
     req.user = user;
     next();
   } catch {

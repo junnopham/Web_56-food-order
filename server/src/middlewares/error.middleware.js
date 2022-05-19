@@ -8,6 +8,7 @@ const errorMiddleware = (err, req, res, next) => {
 
   return res.status(code).json({
     code,
+    status: "error",
     message,
   });
 };
@@ -15,6 +16,7 @@ const errorMiddleware = (err, req, res, next) => {
 const notFoundMiddleware = (req, res, next) => {
   return res.status(404).json({
     code: 404,
+    status: "error",
     message: "Not Found",
   });
 };
