@@ -1,5 +1,3 @@
-const User = require("../models/user.model");
-
 const comparePassword = (user, password) => {
   return new Promise((resolve, reject) => {
     user.comparePassword(password, (err, isMatch) => {
