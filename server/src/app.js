@@ -16,7 +16,7 @@ module.exports = class App {
     this.app = express();
     this.server = http.createServer(this.app);
     this.port = process.env.PORT || 5000;
-    this.production = process.env.NODE_ENV == "production";
+    this.production = process.env.NODE_ENV === "production";
     this.version = process.env.API_VERSION || "v1";
 
     this.connectDatabase();
@@ -113,7 +113,6 @@ module.exports = class App {
             });
           } catch (error) {
             done(error, null);
-            return;
           }
         }
       )
