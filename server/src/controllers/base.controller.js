@@ -1,14 +1,14 @@
 module.exports = class BaseController {
   constructor(model) {
     this.model = model;
-    this.index = this.index.bind(this);
-    this.show = this.show.bind(this);
-    this.store = this.store.bind(this);
+    this.getAll = this.getAll.bind(this);
+    this.getOne = this.getOne.bind(this);
+    this.create = this.create.bind(this);
     this.update = this.update.bind(this);
-    this.destroy = this.destroy.bind(this);
+    this.delete = this.delete.bind(this);
   }
 
-  async index(req, res) {
+  async getAll(req, res) {
     try {
       const data = await this.model.find({}).lean();
 
@@ -26,7 +26,7 @@ module.exports = class BaseController {
     }
   }
 
-  async show(req, res) {
+  async getOne(req, res) {
     try {
       const { id } = req.params;
       const data = await this.model.findById(id).lean();
@@ -47,9 +47,8 @@ module.exports = class BaseController {
     }
   }
 
-  async store(req, res) {
+  async create(req, res) {
     try {
-      const { name, price, }
     } catch {
       return res.status(400).json({
         code: 400,
@@ -61,5 +60,5 @@ module.exports = class BaseController {
 
   async update(req, res) {}
 
-  async destroy(req, res) {}
+  async delete(req, res) {}
 };
