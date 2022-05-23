@@ -9,7 +9,7 @@ const { isLoggedIn } = require("../middlewares/auth.middleware");
 const router = Router();
 const path = "/food";
 
-router.get(path, FoodController.index);
-router.get(path + "/:id", FoodController.show);
+router.get(path, FoodController.getAll);
+router.get(path + "/:id", FoodController.getOne);
 
 module.exports = router;
