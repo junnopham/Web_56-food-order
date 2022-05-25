@@ -1,7 +1,7 @@
 const fs = require("fs");
 
-const currentDir = fs.readFileSync(__dirname);
+const currentDir = fs
+  .readdirSync(__dirname + "/controllers")
+  .filter((file) => file.endsWith(".js"));
 
-currentDir.forEach((file) => {
-  console.log(file);
-});
+console.log(currentDir);

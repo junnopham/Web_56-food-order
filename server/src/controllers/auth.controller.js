@@ -60,10 +60,12 @@ class AuthController {
 
     await newUser.save();
 
+    const { password: hide, ...data } = newUser;
+
     return res.json({
       code: 200,
       status: "success",
-      data: newUser,
+      data,
     });
   }
 
