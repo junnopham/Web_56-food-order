@@ -1,3 +1,5 @@
+const Food = require("../models/food.model");
+const { getPagination } = require("../utils/general");
 module.exports = class BaseController {
   constructor(model) {
     this.model = model;

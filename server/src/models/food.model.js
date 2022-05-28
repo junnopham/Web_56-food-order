@@ -1,4 +1,5 @@
 const { model, Schema } = require("mongoose");
+const mongoosePaginate = require("mongoose-paginate-v2");
 
 const foodSchema = new Schema(
   {
@@ -18,5 +19,7 @@ const foodSchema = new Schema(
   },
   { timestamps: true }
 );
+
+foodSchema.plugin(mongoosePaginate);
 
 module.exports = model("Food", foodSchema);

@@ -55,7 +55,7 @@ const Home = () => {
           <div
             className="text-white fw-bolder fs-3"
             style={{
-              "text-shadow": "2px 2px #000",
+              textShadow: "2px 2px #000",
               userSelect: "none",
             }}
           >

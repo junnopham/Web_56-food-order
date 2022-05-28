@@ -16,23 +16,21 @@ import {
   Row,
 } from "react-bootstrap";
 
-import { registerUser } from "../../redux/auth/actions";
+import { loginUser } from "../../redux/auth/actions";
 
-const Register = () => {
+const Login = () => {
   const dispatch = useDispatch();
 
-  const { loading, userSignUp, error } = useSelector(({ Auth }) => ({
+  const { user, loading, userLoggedIn, error } = useSelector(({ Auth }) => ({
+    user: Auth.user,
     loading: Auth.loading,
     error: Auth.error,
-    userSignUp: Auth.userSignUp,
+    userLoggedIn: Auth.userLoggedIn,
   }));
 
   const [formData, setFormData] = useState({
     email: "",
-    name: "",
     password: "",
-    confirmPassword: "",
-    term: false,
   });
 
   const handleInput = (e) => {
@@ -40,23 +38,17 @@ const Register = () => {
 
     setFormData({
       ...formData,
-      [name]: name === "term" ? e.target.checked : value,
+      [name]: value,
     });
   };
 
   const schemaResolver = yupResolver(
     yup.object().shape({
       email: yup.string().email().required("Please enter Email address"),
-      name: yup.string().required("Please enter your name"),
       password: yup
         .string()
         .required("Please enter Password")
         .min(6, "Password length should be at least 6 characters"),
-      confirmPassword: yup
-        .string()
-        .oneOf([yup.ref("password"), null], "Passwords don't match")
-        .required("This value is required."),
-      term: yup.bool().oneOf([true], "Please agree the term!"),
     })
   );
 
@@ -70,14 +62,14 @@ const Register = () => {
   } = methods;
 
   const onFormSubmit = (data) => {
-    const { email, name, password, confirmPassword } = data;
+    const { email, password } = data;
 
-    dispatch(registerUser(email, name, password, confirmPassword));
+    dispatch(loginUser(email, password));
   };
 
   return (
     <>
-      {userSignUp && <Navigate to={"/login"} />}
+      {userLoggedIn || user ? <Navigate to={"/"} /> : null}
       <div className="account-pages my-5">
         <Container>
           <Row className="justify-content-center">
@@ -96,8 +88,10 @@ const Register = () => {
                         </Link>
                       </div>
 
-                      <h6 className="h5 mb-0 mt-3">Create your account</h6>
-                      <p className="text-muted mt-1 mb-4">...</p>
+                      <h6 className="h5 mb-0 mt-3">Welcome back</h6>
+                      <p className="text-muted mt-1 mb-4">
+                        Enter your email address and password to access
+                      </p>
                       {error && (
                         <Alert variant="danger" className="my-2">
                           {error}
@@ -118,20 +112,6 @@ const Register = () => {
                           <Form.Control.Feedback type="invalid">
                             {errors.email?.message}
                           </Form.Control.Feedback>
-                        </Form.Group>
-                        <Form.Group className="mb-2">
-                          <Form.Label>Name</Form.Label>
-                          <Form.Control
-                            className={clsx({
-                              "is-invalid": errors.name,
-                            })}
-                            type="text"
-                            name="name"
-                            {...register("name")}
-                            value={formData.name}
-                            onChange={handleInput}
-                            placeholder="John Smith"
-                          />
                           <Form.Control.Feedback type="invalid">
                             {errors.name?.message}
                           </Form.Control.Feedback>
@@ -153,41 +133,13 @@ const Register = () => {
                             {errors.password?.message}
                           </Form.Control.Feedback>
                         </Form.Group>
-                        <Form.Group className="mb-2">
-                          <Form.Label>Confirm Password</Form.Label>
-                          <Form.Control
-                            className={clsx({
-                              "is-invalid": errors.confirmPassword,
-                            })}
-                            type="password"
-                            name="confirmPassword"
-                            {...register("confirmPassword")}
-                            value={formData.confirmPassword}
-                            onChange={handleInput}
-                            placeholder="Confirm Password"
-                          />
-                          <Form.Control.Feedback type="invalid">
-                            {errors.confirmPassword?.message}
-                          </Form.Control.Feedback>
-                        </Form.Group>
-                        <Form.Group className="mb-2">
-                          <Form.Check
-                            className={clsx({
-                              "is-invalid": errors.term,
-                            })}
-                            name="term"
-                            {...register("term")}
-                            onChange={handleInput}
-                            label="Agree to terms and conditions"
-                            checked={formData.term}
-                          />
-                          <Form.Control.Feedback type="invalid">
-                            {errors.term?.message}
-                          </Form.Control.Feedback>
-                        </Form.Group>
                         <Form.Group>
-                          <Button type="submit" color="primary">
-                            Register
+                          <Button
+                            type="submit"
+                            color="primary"
+                            disabled={loading}
+                          >
+                            Login
                           </Button>
                         </Form.Group>
                       </Form>
@@ -209,20 +161,6 @@ const Register = () => {
                   </Row>
                 </Card.Body>
               </Card>
-
-              <Row className="mt-3">
-                <Col xs={12} className="text-center">
-                  <p className="text-muted">
-                    Already have account?{" "}
-                    <Link
-                      to={"/auth/login"}
-                      className="text-primary fw-bold ms-1"
-                    >
-                      Login
-                    </Link>
-                  </p>
-                </Col>
-              </Row>
             </Col>
           </Row>
         </Container>
@@ -231,4 +169,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Login;

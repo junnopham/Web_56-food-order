@@ -1,12 +1,15 @@
+import { useEffect, useState } from "react";
 import { Col, Pagination, Row } from "react-bootstrap";
 
 import FoodItem from "../components/food/FoodItem";
 
 const List = () => {
+  const [food, setFood] = useState([]);
+  const [page, setPage] = useState(1);
+
   return (
     <>
       <Row className="mt-3">
-        <FoodItem />
         <FoodItem />
         <FoodItem />
         <FoodItem />

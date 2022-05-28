@@ -35,11 +35,14 @@ class AuthController {
         //secure: true;
       });
 
+      const { password: hidden, ...data } = user.toObject();
+
       return res.json({
         message: "success",
         key: "Bearer",
         token: jwtToken,
         expiresAt: dayjs().add(7, "day").valueOf(),
+        data,
       });
     } catch (err) {
       res.status(401).json({
@@ -52,21 +55,33 @@ class AuthController {
   async register(req, res) {
     const { name, email, password } = req.body;
 
-    const newUser = new User({
-      name,
-      email,
-      password,
-    });
+    try {
+      const findEmail = await User.findOne({ email }).lean();
 
-    await newUser.save();
+      if (findEmail) {
+        throw new Error("E-mail already in use");
+      }
 
-    const { password: hide, ...data } = newUser;
+      const newUser = new User({
+        name,
+        email,
+        password,
+      });
 
-    return res.json({
-      code: 200,
-      status: "success",
-      data,
-    });
+      await newUser.save();
+
+      return res.status(201).json({
+        code: 201,
+        status: "success",
+        data: newUser,
+      });
+    } catch (e) {
+      return res.status(401).json({
+        code: 401,
+        status: "error",
+        message: e.message || "Abc",
+      });
+    }
   }
 
   async me(req, res) {
